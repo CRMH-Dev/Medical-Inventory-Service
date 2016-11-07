@@ -22,12 +22,12 @@ public class OrderPurchaseProduct {
 	@Id
 	@Column(name = "ORDER_PURCHASE_PRODUCT_ID")
 	private int orderPurchaseProductId;
-	@ManyToOne
+	@ManyToOne(targetEntity = OrderPurchase.class)
     @JoinColumn(name = "ORDER_PURCHASE_ID",nullable = false)
-	private int orderPurchaseId;
-	@ManyToOne
+	private OrderPurchase orderPurchase;
+	@ManyToOne(targetEntity = ProductInventory.class)
     @JoinColumn(name = "INVENTORY_ID",nullable = false)
-	private int productId;
+	private ProductInventory productInventory;
 	@Column(name = "QUANTITY")
 	private int quantity;
 	
@@ -38,17 +38,18 @@ public class OrderPurchaseProduct {
 	public void setOrderPurchaseProductId(int orderPurchaseProductId) {
 		this.orderPurchaseProductId = orderPurchaseProductId;
 	}
-	public int getOrderPurchaseId() {
-		return orderPurchaseId;
+	
+	public OrderPurchase getOrderPurchase() {
+		return orderPurchase;
 	}
-	public void setOrderPurchaseId(int orderPurchaseId) {
-		this.orderPurchaseId = orderPurchaseId;
+	public void setOrderPurchase(OrderPurchase orderPurchase) {
+		this.orderPurchase = orderPurchase;
 	}
-	public int getProductId() {
-		return productId;
+	public ProductInventory getProductInventory() {
+		return productInventory;
 	}
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProductInventory(ProductInventory productInventory) {
+		this.productInventory = productInventory;
 	}
 	public int getQuantity() {
 		return quantity;

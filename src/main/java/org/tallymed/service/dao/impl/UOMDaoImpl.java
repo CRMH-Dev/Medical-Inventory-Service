@@ -2,6 +2,7 @@ package org.tallymed.service.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.tallymed.service.dao.UOMDao;
 import org.tallymed.service.model.UnitOfMeasurement;
@@ -27,7 +28,12 @@ public class UOMDaoImpl extends GenericDaoImpl<UnitOfMeasurement, Integer> imple
 
 	@Override
 	public List<UnitOfMeasurement> findUnitOfMeasurementByID(UnitOfMeasurement unitOfMeasurement) {
-		return findUnitOfMeasurementByID(unitOfMeasurement);
+		Query query = getSessionFactory()
+				.getCurrentSession()
+				.getNamedQuery("UnitOfMeasurement.findByParam")
+				.setParameter("unitType",unitOfMeasurement.getUnitType())
+				.setParameter("unitQuantity", unitOfMeasurement.getUnitQuantity());
+		return findByNamedQuery(query);
 	}
 
 }

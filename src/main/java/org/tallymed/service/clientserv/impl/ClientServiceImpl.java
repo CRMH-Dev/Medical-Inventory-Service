@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.tallymed.service.clientserv.op.DealerOperation;
 import org.tallymed.service.clientserv.op.LoginOperation;
 import org.tallymed.service.clientserv.op.ProductInventoryOperation;
+import org.tallymed.service.clientserv.op.Products;
 import org.tallymed.service.model.DealerInfo;
 import org.tallymed.service.model.LoginInformation;
 import org.tallymed.service.model.MfgCompany;
@@ -41,6 +42,7 @@ public class ClientServiceImpl {
     MfgCompanyService mfgCompanyService;
     @Autowired
     private DealerInfoService dealerInfoService;
+
 	
 	public ResponseEntity<LoginOperation> loginOperation(LoginOperation loginOperation) {	
 		return new ResponseEntity<LoginOperation>(loginOperation,HttpStatus.OK);
@@ -70,6 +72,14 @@ public class ClientServiceImpl {
 			ProductInventoryOperation inventoryOperationRequest) {
 		ProductInventoryOperation inventoryOperationResponse;
 		
+		DealerInfo dealerInfo = findDealerInfo(inventoryOperationRequest.getDealerName());
+		
+		if(inventoryOperationRequest.getProducts() != null && !inventoryOperationRequest.getProducts().isEmpty()){
+			for(Products product : inventoryOperationRequest.getProducts()){
+				UnitOfMeasurement uom = findOrCreateUOM(product.getUomType(),product.getUomQuantity());
+				
+			}
+		}
 		/*Set<ProductInventory> productInventory = new HashSet<ProductInventory();
         Product product = new Product();
         
@@ -107,6 +117,27 @@ public class ClientServiceImpl {
         productInventoryService.save(productInventory);*/
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	private UnitOfMeasurement findOrCreateUOM(String uomType, int i) {
+		UnitOfMeasurement uom = new UnitOfMeasurement();
+		uom.setUnitQuantity(i);
+		uom.setUnitType(uomType);
+		List<UnitOfMeasurement> uoms = uomService.findById(uom);
+		if(uoms == null || uoms.isEmpty()){
+			return uom;
+		}
+		return uoms.get(0);
+	}
+
+	private DealerInfo findDealerInfo(String dealerName) {
+		DealerInfo dealerInfo = new DealerInfo();
+		dealerInfo.setDealerName(dealerName);
+		List<DealerInfo> dealerInfos = dealerInfoService.findDealerInfoByName(dealerInfo);
+		if(dealerInfos != null && !dealerInfos.isEmpty()){
+			return dealerInfos.get(0);
+		}
+		return null;
 	}
 
 	public void saveDealer(DealerOperation dealerOperation) {

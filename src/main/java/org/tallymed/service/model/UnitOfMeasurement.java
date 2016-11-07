@@ -16,7 +16,8 @@ import javax.persistence.TableGenerator;
 @Entity
 @Table(name = "UNIT_OF_MEASUREMENT")
 @NamedQueries({
-	  @NamedQuery(name="UnitOfMeasurement.findAll", query="select U FROM UnitOfMeasurement U")
+	  @NamedQuery(name="UnitOfMeasurement.findAll", query="select U FROM UnitOfMeasurement U"),
+	  @NamedQuery(name="UnitOfMeasurement.findByParam", query="select U FROM UnitOfMeasurement U where U.unitType=:unitType and U.unitQuantity=:unitQuantity")
 })
 public class UnitOfMeasurement {
 	

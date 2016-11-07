@@ -6,6 +6,7 @@ import org.tallymed.service.model.DealerInfo;
 
 public interface DealerInfoService {
 	public List<DealerInfo> findDealerInfo(DealerInfo dealerInfo);
+	public List<DealerInfo> findDealerInfoByName(DealerInfo dealerInfo);
 	public void save(DealerInfo dealerInfo);
 	public void delete(DealerInfo dealerInfo);
 	public void update(DealerInfo dealerInfo);

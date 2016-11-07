@@ -45,5 +45,10 @@ public class DealerInfoServiceImpl implements DealerInfoService {
 	public List<DealerInfo> findAll(DealerInfo dealerInfo) {
 		return dealerInfoDao.findAllDealer(dealerInfo);
 	}
+
+	@Override
+	public List<DealerInfo> findDealerInfoByName(DealerInfo dealerInfo) {
+		return dealerInfoDao.findDealerInfoByName(dealerInfo);
+	}
 	
 }
