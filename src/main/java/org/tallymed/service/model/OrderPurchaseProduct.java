@@ -1,5 +1,6 @@
 package org.tallymed.service.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
@@ -25,7 +27,7 @@ public class OrderPurchaseProduct {
 	@ManyToOne(targetEntity = OrderPurchase.class)
     @JoinColumn(name = "ORDER_PURCHASE_ID",nullable = false)
 	private OrderPurchase orderPurchase;
-	@ManyToOne(targetEntity = ProductInventory.class)
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "INVENTORY_ID",nullable = false)
 	private ProductInventory productInventory;
 	@Column(name = "QUANTITY")

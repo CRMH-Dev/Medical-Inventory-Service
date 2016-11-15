@@ -15,7 +15,7 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
 	
 	@Override
 	public List<ProductInventory> findAll(ProductInventory productInventory) {
-		return productInventoryDao.findProductInventoryByID(productInventory);
+		return productInventoryDao.findAllProductInventory(productInventory);
 	}
 
 	@Override

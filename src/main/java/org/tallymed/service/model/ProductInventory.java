@@ -21,7 +21,8 @@ import javax.persistence.TableGenerator;
 @Entity
 @Table(name = "PRODUCT_INVENTORY")
 @NamedQueries({
-	  @NamedQuery(name="ProductInventory.findAll", query="select P FROM ProductInventory P")
+	  @NamedQuery(name="ProductInventory.findAll", query="select P FROM ProductInventory P"),
+	  @NamedQuery(name="ProductInventory.findByBatchId", query="select P FROM ProductInventory P where P.batchId=:batchId")
 })
 public class ProductInventory {
 	
@@ -31,7 +32,7 @@ public class ProductInventory {
 	@Column(name = "INVENTORY_ID")
 	private int inventoryId;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PRODUCT_ID",nullable = false)
 	private Product product;
 	
@@ -49,8 +50,6 @@ public class ProductInventory {
 	private int currentStock;
 	@Column(name = "DATE_OF_PURCHASE")
 	private Date dateOfPurchase;
-	@OneToMany(mappedBy = "productInventory", cascade = CascadeType.ALL)
-	private Set<OrderPurchaseProduct> orderPurchaseProducts;
 	
 	public int getInventoryId() {
 		return inventoryId;
@@ -106,11 +105,4 @@ public class ProductInventory {
 	public void setDateOfPurchase(Date dateOfPurchase) {
 		this.dateOfPurchase = dateOfPurchase;
 	}
-	public Set<OrderPurchaseProduct> getOrderPurchaseProducts() {
-		return orderPurchaseProducts;
-	}
-	public void setOrderPurchaseProducts(Set<OrderPurchaseProduct> orderPurchaseProducts) {
-		this.orderPurchaseProducts = orderPurchaseProducts;
-	}
-	
 }

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.net.*?>
+
+<AnchorPane fx:id="inventoryPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tallymed.ui.views.InventoryAddController">
+   <children>
+      <HBox layoutX="-3.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ScrollPane focusTraversable="false" minWidth="471.0" prefHeight="600.0" prefWidth="471.0">
+               <content>
+                  <AnchorPane prefHeight="598.0" prefWidth="455.0" stylesheets="@themes/jfxTreeView.css">
+                     <children>
+                        <JFXComboBox fx:id="dealer" layoutX="47.0" layoutY="31.0" prefHeight="22.0" prefWidth="176.0" promptText="Choose Dealer" visibleRowCount="4" />
+                        <JFXTextField fx:id="invoiceID" focusColor="#009900" labelFloat="true" layoutX="256.0" layoutY="27.0" maxWidth="187.0" minWidth="164.0" prefHeight="31.0" prefWidth="187.0" promptText="Dealer Invoice ID" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font></JFXTextField>
+                        <DatePicker fx:id="purchaseDate" editable="false" layoutX="41.0" layoutY="86.0" prefHeight="22.0" prefWidth="176.0" promptText="Purchase Date (dd/mm/yyyy)" />
+                        <JFXTextField fx:id="batchId" focusColor="#009900" labelFloat="true" layoutX="41.0" layoutY="136.0" maxWidth="190.0" minWidth="190.0" prefHeight="32.0" prefWidth="190.0" promptText="Batch Id" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXSpinner fx:id="batchSniper" layoutX="231.0" layoutY="142.0" radius="6.0" />
+                        <JFXTextField fx:id="productName" focusColor="#009900" labelFloat="true" layoutX="41.0" layoutY="189.0" maxWidth="190.0" minWidth="190.0" prefHeight="32.0" prefWidth="190.0" promptText="Product Name" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXSpinner fx:id="productSpiner" layoutX="231.0" layoutY="195.0" radius="6.0" />
+                        <JFXTextField fx:id="productComposition" focusColor="#009900" labelFloat="true" layoutX="256.0" layoutY="189.0" maxWidth="190.0" minWidth="190.0" prefHeight="32.0" prefWidth="190.0" promptText="Product Composition" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="mfgCompanyName" focusColor="#009900" labelFloat="true" layoutX="41.0" layoutY="254.0" maxWidth="190.0" minWidth="190.0" prefHeight="32.0" prefWidth="190.0" promptText="MFG Company Name" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="mfgShortName" focusColor="#009900" labelFloat="true" layoutX="256.0" layoutY="254.0" maxWidth="190.0" minWidth="190.0" prefHeight="32.0" prefWidth="190.0" promptText="MFG Company Short Name" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXComboBox fx:id="unitType" editable="true" layoutX="43.0" layoutY="314.0" prefHeight="29.0" prefWidth="176.0" promptText="Unit Type" visibleRowCount="5" />
+                        <JFXTextField fx:id="unitQuantity" focusColor="#009900" labelFloat="true" layoutX="256.0" layoutY="315.0" maxWidth="190.0" minWidth="176.0" prefHeight="32.0" prefWidth="190.0" promptText="Unit Quantity" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="purchasePrice" focusColor="#009900" labelFloat="true" layoutX="41.0" layoutY="374.0" maxWidth="190.0" minWidth="183.0" prefHeight="32.0" prefWidth="190.0" promptText="Purchase Price" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="mrp" focusColor="#009900" labelFloat="true" layoutX="251.0" layoutY="374.0" maxWidth="190.0" minWidth="183.0" prefHeight="32.0" prefWidth="190.0" promptText="Selling Price" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <JFXTextField fx:id="quantity" focusColor="#009900" labelFloat="true" layoutX="41.0" layoutY="424.0" maxWidth="190.0" minWidth="183.0" prefHeight="32.0" prefWidth="190.0" promptText="Quantity" unFocusColor="#5b5b5b">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXTextField>
+                        <DatePicker fx:id="mfgDate" editable="false" layoutX="47.0" layoutY="489.0" prefHeight="22.0" prefWidth="179.0" promptText="MFG Date (dd/mm/yyyy)" />
+                        <DatePicker fx:id="expDate" editable="false" layoutX="258.0" layoutY="489.0" prefHeight="22.0" prefWidth="177.0" promptText="Expiry Date (dd/mm/yyyy)" />
+                        <JFXButton fx:id="addProduct" alignment="CENTER" layoutX="47.0" layoutY="539.0" onAction="#handleAdd" prefHeight="19.0" prefWidth="175.0" ripplerFill="WHITE" style="-fx-background-color: #009900;" text="Add" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="reset" alignment="CENTER" buttonType="RAISED" layoutX="258.0" layoutY="539.0" onAction="#resetButtonAction" prefHeight="30.0" prefWidth="175.0" ripplerFill="WHITE" style="-fx-background-color: #6e11ff;" text="Reset" wrapText="true">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton fx:id="addDealerInvoice" buttonType="RAISED" layoutX="259.0" layoutY="84.0" onAction="#handleDealerComboClick" prefHeight="25.0" prefWidth="174.0" ripplerFill="WHITE" style="-fx-background-color: #448888;" text="Add Dealer Invoice Record">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+            <ScrollPane fx:id="scrollPane2" focusTraversable="false">
+              <content>
+                <AnchorPane>
+                     <children>
+                        <VBox>
+                           <children>
+                              <FlowPane minWidth="429.0">
+                                 <children>
+                                    <TreeTableView fx:id="treeView" prefHeight="511.0" />
+                                 </children>
+                              </FlowPane>
+                              <AnchorPane maxHeight="100.0" prefHeight="100.0">
+                                 <children>
+                                    <JFXButton fx:id="editButton" layoutX="126.0" layoutY="132.0" onAction="#handleEdit" prefHeight="29.0" prefWidth="68.0" ripplerFill="WHITE" style="-fx-background-color: #448888;" text="Edit" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="deleteButton" layoutX="205.0" layoutY="132.0" onAction="#handleDelete" prefHeight="29.0" prefWidth="68.0" style="-fx-background-color: #990000;" text="Delete" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <JFXButton fx:id="saveAllButton" layoutX="287.0" layoutY="132.0" onAction="#handleSaveAll" prefHeight="29.0" prefWidth="68.0" style="-fx-background-color: #009900;" text="Save All" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="190.0">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </JFXButton>
+                                    <Label fx:id="dealerPayLabel" layoutX="171.0" layoutY="14.0" text="Total Payable to Dealer:" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="10.0">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="priceLabel" layoutX="329.0" layoutY="16.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="190.0">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </children>
+      </HBox>
+   </children>
+   
+   <stylesheets>
+      <URL value="@themes/defaultTheme.css" />
+      <URL value="@themes/jfxTreeView.css" />
+   </stylesheets>
+</AnchorPane>

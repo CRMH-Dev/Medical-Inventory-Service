@@ -10,4 +10,5 @@ public interface ProductInventoryDao {
 	public void deleteProductInventory (ProductInventory productInventory);
 	public void updateProductInventory (ProductInventory productInventory);
 	public List<ProductInventory> findProductInventoryByID(ProductInventory productInventory);
+	public List<ProductInventory> findAllProductInventory(ProductInventory productInventory);
 }

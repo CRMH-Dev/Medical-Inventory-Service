@@ -1,11 +1,16 @@
 package org.tallymed.service.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
@@ -31,7 +36,19 @@ public class DealerInfo {
 	private float totalPurchase;
 	@Column(name = "TOTAL_PAYMENT")
 	private float totalPayment;
+	@OneToMany(mappedBy = "dealerInfo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<DealerPayment> dealerPayments;
 	
+	@OneToMany(mappedBy = "dealerInfo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<OrderPurchase> orderPurchases;
+	
+	
+	public Set<DealerPayment> getDealerPayments() {
+		return dealerPayments;
+	}
+	public void setDealerPayments(Set<DealerPayment> dealerPayments) {
+		this.dealerPayments = dealerPayments;
+	}
 	public int getDealerId() {
 		return dealerId;
 	}
@@ -68,5 +85,11 @@ public class DealerInfo {
 	}
 	public void setTotalPayment(float totalPayment) {
 		this.totalPayment = totalPayment;
+	}
+	public Set<OrderPurchase> getOrderPurchases() {
+		return orderPurchases;
+	}
+	public void setOrderPurchases(Set<OrderPurchase> orderPurchases) {
+		this.orderPurchases = orderPurchases;
 	}
 }

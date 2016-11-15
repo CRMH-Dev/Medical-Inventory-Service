@@ -2,49 +2,57 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.crmh</groupId>
-	<artifactId>medicalInventory</artifactId>
+	<groupId>org.tallymed</groupId>
+	<artifactId>inventoryService</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>MedicalInventory</name>
+	<name>TallyMED</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>4.3.1.RELEASE</spring.version>
 		<java.version>1.8</java.version>
+		<start-class>org.tallymed.ui.RestApplication</start-class>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-
+	<repositories>
+		<repository>
+			<id>lib-ext</id>
+			<url>file:///${project.basedir}/lib-ext</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
+			<!-- <plugin> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-maven-plugin</artifactId> 
+				<version>1.4.3.RELEASE</version> <configuration> <addResources>true</addResources> 
+				</configuration> </plugin> -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.0.2</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.4.3.RELEASE</version>
 				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
+					<mainClass>${start-class}</mainClass>
+					<layout>ZIP</layout>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>org.crmh.inventory.RestApplication</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
+		<!-- <plugins> <plugin> <artifactId>maven-assembly-plugin</artifactId> 
+			<version>2.4.1</version> <configuration> <archive> <manifest> <addClasspath>false</addClasspath> 
+			<mainClass>org.tallymed.service.RestApplication</mainClass> <packageName>org.tallymed.service</packageName> 
+			</manifest> </archive> <descriptorRefs> <descriptorRef>jar-with-dependencies</descriptorRef> 
+			</descriptorRefs> </configuration> <executions> <execution> <id>make-assembly</id> 
+			<phase>package</phase> <goals> <goal>single</goal> </goals> </execution> 
+			</executions> </plugin> </plugins> -->
 	</build>
 
 	<parent>
@@ -53,7 +61,12 @@
 		<version>1.4.0.RELEASE</version>
 	</parent>
 	<dependencies>
-
+		<dependency>
+			<groupId>com.jfoenix</groupId>
+			<artifactId>jfoenix</artifactId>
+			<version>1.0.0</version>
+			<!-- <scope>system</scope> <systemPath>${project.basedir}/lib-ext/jfoenix.jar</systemPath> -->
+		</dependency>
 		<!-- Spring Dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -128,12 +141,6 @@
 			<version>3.1.0.CR2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.4</version>
-		</dependency>
-
-		<dependency>
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.8.0.GA</version>
@@ -149,11 +156,7 @@
 			<artifactId>commons-logging</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.8</version>
-		</dependency>
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -204,6 +207,10 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>wsdl4j</groupId>

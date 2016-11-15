@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import java.net.*?>
+
+<BorderPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tallymed.ui.views.RootlayoutController">
+   <top>
+		<MenuBar BorderPane.alignment="CENTER">
+			<menus>
+				<Menu mnemonicParsing="false" text="File">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#handleClose" text="Close" />
+					</items>
+				</Menu>
+            <Menu mnemonicParsing="false" text="Inventory">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#handleAddInventory" text="Add" />
+                <MenuItem mnemonicParsing="false" text="Manage" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Sales">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#handleSellHome" text="Sales Home" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Reports">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Dealers">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Manage" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Customers">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Manage" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Tools">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+				<Menu mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false" text="About" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+   </top>
+   <stylesheets>
+      <URL value="@themes/defaultTheme.css" />
+   </stylesheets>
+</BorderPane>

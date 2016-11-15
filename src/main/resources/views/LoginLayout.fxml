@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" styleClass="login-anchor" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tallymed.ui.views.LoginController">
+	<children>
+		<Label fx:id="loginHeaderLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="8.0" layoutY="14.0" prefHeight="34.0" prefWidth="484.0" styleClass="login-header" text="tallyMED" />
+		<Label layoutX="230.0" layoutY="48.0" styleClass="item-title" text="LogIN" AnchorPane.leftAnchor="226.0" AnchorPane.rightAnchor="226.0" AnchorPane.topAnchor="54.0" />
+      <JFXTextField fx:id="userNameField" focusColor="#009900" labelFloat="true" layoutX="136.0" layoutY="107.0" maxWidth="229.0" minWidth="201.0" prefHeight="35.0" prefWidth="229.0" promptText="Username" unFocusColor="#5b5b5b">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXTextField>
+      <JFXPasswordField fx:id="passwordField" focusColor="#009900" labelFloat="true" layoutX="136.0" layoutY="165.0" maxWidth="229.0" minWidth="201.0" prefHeight="35.0" prefWidth="229.0" promptText="Password" unFocusColor="#5b5b5b">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </JFXPasswordField>
+      <JFXButton layoutX="148.0" layoutY="226.0" onAction="#handleLogin" ripplerFill="WHITE" style="-fx-background-color: #009900;" text="Login" />
+      <JFXButton layoutX="272.0" layoutY="226.0" onAction="#handleClose" ripplerFill="WHITE" style="-fx-background-color: #990000;" text="Close" textFill="#1e5e2f" />
+	</children>
+   <stylesheets>
+      <URL value="@themes/defaultTheme.css" />
+   </stylesheets>
+
+</AnchorPane>

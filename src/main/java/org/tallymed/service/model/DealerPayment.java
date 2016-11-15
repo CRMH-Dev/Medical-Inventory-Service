@@ -2,8 +2,11 @@ package org.tallymed.service.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -20,8 +23,9 @@ public class DealerPayment {
 	@Id
 	@Column(name = "PAYMENT_ID")
 	private int paymentId;
-	@Column(name = "DEALER_ID")
-	private int dealerId;
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "DEALER_ID",nullable = false)
+	private DealerInfo dealerInfo;
 	@Column(name = "IS_PAYMENT")
 	private boolean isPayment;
 	@Column(name = "AMOUNT")
@@ -32,11 +36,12 @@ public class DealerPayment {
 	public void setPaymentId(int paymentId) {
 		this.paymentId = paymentId;
 	}
-	public int getDealerId() {
-		return dealerId;
+	
+	public DealerInfo getDealerInfo() {
+		return dealerInfo;
 	}
-	public void setDealerId(int dealerId) {
-		this.dealerId = dealerId;
+	public void setDealerInfo(DealerInfo dealerInfo) {
+		dealerInfo = dealerInfo;
 	}
 	public boolean isPayment() {
 		return isPayment;

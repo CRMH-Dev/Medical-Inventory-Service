@@ -2,6 +2,7 @@ package org.tallymed.service.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,8 +33,20 @@ public class ProductInventoryDaoImpl extends GenericDaoImpl<ProductInventory, In
 	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public List<ProductInventory> findProductInventoryByID(ProductInventory productInventory) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = getSessionFactory()
+				.getCurrentSession()
+				.getNamedQuery("ProductInventory.findByBatchId")
+				.setParameter("batchId", productInventory.getBatchId());
+		return findByNamedQuery(query);
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
+	public List<ProductInventory> findAllProductInventory(ProductInventory productInventory) {
+		Query query = getSessionFactory()
+				.getCurrentSession()
+				.getNamedQuery("ProductInventory.findAll");
+		return findByNamedQuery(query);
 	}
 
 }

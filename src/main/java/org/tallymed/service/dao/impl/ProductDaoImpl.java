@@ -2,6 +2,7 @@ package org.tallymed.service.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +32,11 @@ public class ProductDaoImpl extends GenericDaoImpl<Product, Integer> implements 
 	@Override
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public List<Product> findProductByID(Product product) {
-		// TODO Auto-generated method stub
-		return null;
+		Query query = getSessionFactory()
+				.getCurrentSession()
+				.getNamedQuery("Product.findByProductName")
+				.setParameter("productName", product.getProductName());
+		return findByNamedQuery(query);
 	}
 
 }

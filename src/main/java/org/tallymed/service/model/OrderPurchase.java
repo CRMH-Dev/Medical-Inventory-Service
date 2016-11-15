@@ -6,8 +6,11 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,8 +29,9 @@ public class OrderPurchase {
 	@Id
 	@Column(name = "ORDER_PURCHASE_ID")
 	private int orderPurchaseId;
-	@Column(name = "DEALER_ID")
-	private int dealerId;
+	@ManyToOne(targetEntity = DealerInfo.class)
+    @JoinColumn(name = "DEALER_ID",nullable = false)
+	private DealerInfo dealerInfo;
 	@Column(name="INVOICE_ID")
 	private String invoiceId;
 	@Column(name = "ORDER_DATE")
@@ -43,11 +47,11 @@ public class OrderPurchase {
 	public void setOrderPurchaseId(int orderPurchaseId) {
 		this.orderPurchaseId = orderPurchaseId;
 	}
-	public int getDealerId() {
-		return dealerId;
+	public DealerInfo getDealerId() {
+		return dealerInfo;
 	}
-	public void setDealerId(int dealerId) {
-		this.dealerId = dealerId;
+	public void setDealerId(DealerInfo dealerInfo) {
+		this.dealerInfo = dealerInfo;
 	}
 	public Date getOrderDate() {
 		return orderDate;

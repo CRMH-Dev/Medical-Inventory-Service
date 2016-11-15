@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="330.0" styleClass="login-anchor" stylesheets="@themes/defaultTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tallymed.ui.views.DealerAddController">
+   <children>
+      <JFXTextField fx:id="dealerName" focusColor="#009900" labelFloat="true" layoutX="62.0" layoutY="45.0" maxWidth="218.0" minWidth="188.0" prefHeight="35.0" prefWidth="218.0" promptText="Dealer Name" unFocusColor="#5b5b5b">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="dealerCompany" focusColor="#009900" labelFloat="true" layoutX="62.0" layoutY="95.0" maxWidth="218.0" minWidth="188.0" prefHeight="35.0" prefWidth="218.0" promptText="Dealer Company Name" unFocusColor="#5b5b5b">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXTextField>
+      <JFXTextField fx:id="contactNo" focusColor="#009900" labelFloat="true" layoutX="64.0" layoutY="151.0" maxWidth="218.0" minWidth="188.0" prefHeight="35.0" prefWidth="218.0" promptText="Contact No" unFocusColor="#5b5b5b">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXTextField>
+      <JFXButton fx:id="saveButton" layoutX="64.0" layoutY="218.0" onAction="#handleDealerSave" prefHeight="29.0" prefWidth="95.0" ripplerFill="WHITE" style="-fx-background-color: #009900;" text="Save" />
+      <JFXButton fx:id="cancelButton" layoutX="185.0" layoutY="218.0" onAction="#handleDealerCancel" prefHeight="29.0" prefWidth="95.0" ripplerFill="WHITE" style="-fx-background-color: #6e11ff;" text="Cancel" />
+   </children>
+</AnchorPane>

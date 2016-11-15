@@ -22,12 +22,13 @@ import org.tallymed.service.dao.GenericDao;
 @SuppressWarnings("unchecked")
 @EnableTransactionManagement
 public class GenericDaoImpl<E, K extends Serializable> implements GenericDao<E, K> {	
+	@Autowired
 	public SessionFactory sessionFactory;
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
-	@Autowired
+	
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}

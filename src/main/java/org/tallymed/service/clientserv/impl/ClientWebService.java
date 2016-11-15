@@ -70,6 +70,7 @@ public class ClientWebService implements ClientService {
 			case SAVE:
 				break;
 			case SEARCH:
+				inventoryOperationResponse = clientServiceImpl.searchProductByProductName(inventoryOperationRequest);
 				break;
 			case UPDATE:
 				break;
@@ -88,8 +89,12 @@ public class ClientWebService implements ClientService {
 				inventoryOperationResponse = clientServiceImpl.productInventorySave(inventoryOperationRequest);
 				break;
 			case SEARCH:
+				inventoryOperationResponse = clientServiceImpl.productInvetorySearch(inventoryOperationRequest);
 				break;
 			case UPDATE:
+				break;
+			case SEARCHALL:
+				inventoryOperationResponse = clientServiceImpl.productInvetorySearchAll(inventoryOperationRequest);
 				break;
 			default:
 				break;
@@ -119,7 +124,7 @@ public class ClientWebService implements ClientService {
 		
 		}
 		
-		return null;
+		return inventoryOperationResponse;
 	}
 	@Override
 	@RequestMapping(value="/dealerOperation",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
