@@ -2,9 +2,9 @@ package org.tallymed.ui.views;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.client.RestTemplate;
+import org.tallymed.service.clientserv.op.LoginOperation;
+import org.tallymed.service.clientserv.type.OperationType;
 import org.tallymed.ui.util.CommonUtil;
-import org.tallymed.ui.views.op.LoginOperation;
-import org.tallymed.ui.views.op.type.OperationType;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;

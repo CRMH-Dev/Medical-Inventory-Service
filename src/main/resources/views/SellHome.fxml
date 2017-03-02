@@ -31,14 +31,20 @@
 								</FlowPane>
 							</content>
 						</ScrollPane>
-						<AnchorPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0">
+                  <Separator prefWidth="200.0" />
+						<AnchorPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" prefWidth="481.0">
                      <children>
-                        <Label text="Label" />
+                        <JFXTextField labelFloat="true" layoutX="14.0" layoutY="22.0" promptText="Product Name" />
+                        <JFXTextField labelFloat="true" layoutX="174.0" layoutY="22.0" promptText="Manufaturer" />
+                        <JFXTextField labelFloat="true" layoutX="14.0" layoutY="80.0" promptText="Price Per Piece" />
+                        <JFXTextField labelFloat="true" layoutX="177.0" layoutY="80.0" promptText="Quantity" />
+                        <Separator layoutX="-23.0" prefWidth="200.0" />
                      </children></AnchorPane>
 					</children>
 				</VBox>
 			</content>
 		</ScrollPane>
+      <Separator orientation="VERTICAL" prefHeight="200.0" />
 		<AnchorPane maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
 	</children>
 	<stylesheets>

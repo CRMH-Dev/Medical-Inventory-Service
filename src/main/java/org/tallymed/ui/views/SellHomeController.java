@@ -7,15 +7,16 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.springframework.web.client.RestTemplate;
+import org.tallymed.service.clientserv.op.ProductInventoryOperation;
+import org.tallymed.service.clientserv.op.Products;
+import org.tallymed.service.clientserv.type.OperationType;
+import org.tallymed.service.clientserv.type.ProductOperationType;
 import org.tallymed.ui.views.forms.InventoryProduct;
-import org.tallymed.ui.views.op.ProductInventoryOperation;
-import org.tallymed.ui.views.op.Products;
-import org.tallymed.ui.views.op.type.OperationType;
-import org.tallymed.ui.views.op.type.ProductOperationType;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -149,6 +150,13 @@ public class SellHomeController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		populateTreeView();
 		refreshTableView();
+		treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<InventoryProduct>>() {
+			@Override
+			public void changed(ObservableValue<? extends TreeItem<InventoryProduct>> observable,
+					TreeItem<InventoryProduct> oldProduct, TreeItem<InventoryProduct> newProduct) {
+				System.out.println(newProduct.getValue().getProductName());
+			}
+		});
 	}
 
 	private void populateTreeView() {

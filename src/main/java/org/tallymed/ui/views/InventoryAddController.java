@@ -17,13 +17,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import org.springframework.web.client.RestTemplate;
+import org.tallymed.service.clientserv.op.DealerOperation;
+import org.tallymed.service.clientserv.op.ProductInventoryOperation;
+import org.tallymed.service.clientserv.op.Products;
+import org.tallymed.service.clientserv.type.OperationType;
+import org.tallymed.service.clientserv.type.ProductOperationType;
 import org.tallymed.ui.util.CommonUtil;
 import org.tallymed.ui.views.forms.InventoryProduct;
-import org.tallymed.ui.views.op.DealerOperation;
-import org.tallymed.ui.views.op.ProductInventoryOperation;
-import org.tallymed.ui.views.op.Products;
-import org.tallymed.ui.views.op.type.OperationType;
-import org.tallymed.ui.views.op.type.ProductOperationType;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;

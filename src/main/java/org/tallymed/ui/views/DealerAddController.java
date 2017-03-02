@@ -1,8 +1,8 @@
 package org.tallymed.ui.views;
 
 import org.springframework.web.client.RestTemplate;
-import org.tallymed.ui.views.op.DealerOperation;
-import org.tallymed.ui.views.op.type.OperationType;
+import org.tallymed.service.clientserv.op.DealerOperation;
+import org.tallymed.service.clientserv.type.OperationType;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
