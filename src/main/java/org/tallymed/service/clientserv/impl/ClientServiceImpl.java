@@ -106,51 +106,7 @@ public class ClientServiceImpl {
 			orderPurchaseService.update(orderPurchase);
 			dealerInfoService.update(dealerInfo);
 		}
-		/*
-		 * Set<ProductInventory> productInventory = new
-		 * HashSet<ProductInventory(); Product product = new Product();
-		 * 
-		 * Set<ProductInventory> productInventories = new
-		 * HashSet<ProductInventory>(); Set<Product> products = new
-		 * HashSet<Product>(); UnitOfMeasurement unitOfMeasurement = new
-		 * UnitOfMeasurement(); MfgCompany mfgCompany = new MfgCompany();
-		 * 
-		 * unitOfMeasurement.setUnitQuantity(inventoryOperationRequest.
-		 * getUomQuantity());
-		 * unitOfMeasurement.setUnitType(inventoryOperationRequest.getUomType())
-		 * ;
-		 * 
-		 * mfgCompany.setAddress(inventoryOperationRequest.getCompanyAddr());
-		 * mfgCompany.setCompanyName(inventoryOperationRequest.getCompanyName())
-		 * ; mfgCompany.setCompanyShortName(inventoryOperationRequest.
-		 * getCompanyShortName());
-		 * 
-		 * product.setProductComposition(inventoryOperationRequest.
-		 * getProductComposition());
-		 * product.setProductName(inventoryOperationRequest.getProductName());
-		 * 
-		 * productInventory.setBatchId(inventoryOperationRequest.getBatchId());
-		 * productInventory.setCurrentStock(inventoryOperationRequest.
-		 * getCurrentStock());
-		 * productInventory.setDateOfPurchase(inventoryOperationRequest.
-		 * getDateOfPurchase());
-		 * productInventory.setEpiryDate(inventoryOperationRequest.getExpDate())
-		 * ;
-		 * productInventory.setMfgDate(inventoryOperationRequest.getMfgDate());
-		 * productInventory.setSellPrice(inventoryOperationRequest.
-		 * getSellingPrice());
-		 * productInventory.setPurchasePrice(inventoryOperationRequest.
-		 * getPurchasePrice());
-		 * 
-		 * productInventories.add(productInventory);
-		 * product.setProductInventorys(productInventories);
-		 * products.add(product); unitOfMeasurement.setProducts(products);
-		 * mfgCompany.setProducts(products); mfgCompanyService.save(mfgCompany);
-		 * uomService.save(unitOfMeasurement); productService.save(product);
-		 * productInventoryService.save(productInventory);
-		 */
-
-		return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	private DealerPayment createDealerPayment(DealerInfo dealerInfo, float orderTotal) {
