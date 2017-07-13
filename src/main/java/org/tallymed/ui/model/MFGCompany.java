@@ -4,7 +4,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 
 public class MFGCompany {
-	private SIntegerProperty companyID;
+	private IntegerProperty companyID;
 	private StringProperty companyName;
 	private StringProperty companyShortName;
 	private StringProperty location;
