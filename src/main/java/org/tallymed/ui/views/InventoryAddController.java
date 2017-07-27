@@ -1,15 +1,12 @@
 package org.tallymed.ui.views;
 
 import java.io.IOException;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
-
-import javafx.scene.layout.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,13 +22,10 @@ import org.tallymed.service.clientserv.type.ProductOperationType;
 import org.tallymed.ui.util.CommonUtil;
 import org.tallymed.ui.views.forms.InventoryProduct;
 
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXSpinner;
-import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,51 +35,57 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.TreeTableView.TreeTableViewSelectionModel;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import javafx.scene.control.*;
 public class InventoryAddController implements Initializable {
 
 	Map<String, InventoryProduct> inventoryProductMap = null;
 
 	@FXML
-	private AnchorPane inventoryPane;
+	private VBox inventoryPane;
 
 	@FXML
-	private JFXComboBox<String> dealer;
+	private ComboBox<String> dealer;
 
 	@FXML
-	private JFXTextField batchId;
+	private TextField batchId;
 
 	@FXML
-	JFXTextField productName;
+	TextField productName;
 
 	@FXML
-	JFXTextField productComposition;
+	TextField productComposition;
 
 	@FXML
-	private JFXTextField mfgCompanyName;
+	private TextField mfgCompanyName;
 
 	@FXML
-	private JFXTextField mfgShortName;
+	private TextField mfgShortName;
 
 	@FXML
-	private JFXComboBox<String> unitType;
+	private ComboBox<String> unitType;
 
 	@FXML
-	private JFXTextField mrp;
+	private TextField mrp;
 
 	@FXML
-	private JFXTextField purchasePrice;
+	private TextField purchasePrice;
 
 	@FXML
-	private JFXTextField quantity;
+	private TextField quantity;
 
 	@FXML
 	private DatePicker mfgDate;
@@ -100,49 +100,40 @@ public class InventoryAddController implements Initializable {
 	private DatePicker purchaseDate;
 	
 	@FXML
-	private JFXTextField unitQuantity;
+	private TextField unitQuantity;
 
 	@FXML
-	private JFXTextField invoiceID;
+	private TextField invoiceID;
 
 	@FXML
-	private JFXButton addDealerInvoice;
+	private Button addDealerInvoice;
 
 	@FXML
 	private TreeTableView<InventoryProduct> treeView;
 	
 	@FXML
-	private JFXButton saveAllButton;
+	private Button saveAllButton;
 	
 	@FXML
-	private JFXButton editButton;
+	private Button editButton;
 	
 	@FXML
-	private JFXButton deleteButton;
+	private Button deleteButton;
 	
-	@FXML
-	private JFXSpinner batchSniper;
-
-	@FXML
-	private JFXSpinner productSpiner;
 	
 	@FXML
 	private Label priceLabel;
 	
 	@FXML
 	private Label dealerPayLabel;
-	
-	@FXML
-	private ScrollPane scrollPane2;
+
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		resetAllFields();
-		scrollPane2.setVisible(false);
+		//scrollPane2.setVisible(false);
 		priceLabel.setVisible(false);
 		dealerPayLabel.setVisible(false);
-		productSpiner.setVisible(false);
-		batchSniper.setVisible(false);
 		ObservableList<String> dealers = FXCollections.observableArrayList();
 		dealers.add("Add New");
 		DealerOperation dealerOperation = findDealers();
@@ -193,7 +184,6 @@ public class InventoryAddController implements Initializable {
 		
 		batchId.setOnKeyPressed(e -> {
 			if(e.getCode().equals(KeyCode.ENTER) || e.getCode().equals(KeyCode.TAB)){
-				batchSniper.setVisible(true);
 				inventoryPane.setDisable(true);
 				ProductInventoryOperation productInventoryOperation = new ProductInventoryOperation();
 				productInventoryOperation.setProducts(new ArrayList<Products>());
@@ -213,7 +203,6 @@ public class InventoryAddController implements Initializable {
 					productName.setText(null);
 				}
 				inventoryPane.setDisable(false);
-				batchSniper.setVisible(false);
 			}
 		});
 		
@@ -260,17 +249,16 @@ public class InventoryAddController implements Initializable {
 		});
 		
 		if (inventoryProductMap == null || inventoryProductMap.isEmpty()) {
-			treeView.setVisible(false);
-			scrollPane2.setVisible(false);
+			//treeView.setVisible(false);
 			saveAllButton.setVisible(false);
 			editButton.setVisible(false);
 			deleteButton.setVisible(false);
 			priceLabel.setVisible(false);
 			dealerPayLabel.setVisible(false);
+			refreshTableView();
 			
 		} else {
 			treeView.setVisible(true);
-			scrollPane2.setVisible(true);
 			saveAllButton.setVisible(true);
 			editButton.setVisible(true);
 			deleteButton.setVisible(true);
@@ -325,6 +313,7 @@ public class InventoryAddController implements Initializable {
 	private void refreshTableView() {
 		TreeTableColumn<InventoryProduct, String> batchName = new TreeTableColumn<>("Batch ID");
 		batchName.setPrefWidth(100);
+		batchName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		batchName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -335,6 +324,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> productName = new TreeTableColumn<>("Product Name");
 		productName.setPrefWidth(150);
+		productName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		productName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -345,6 +335,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> companyShortName = new TreeTableColumn<>("Company Code");
 		companyShortName.setPrefWidth(100);
+		companyShortName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		companyShortName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -355,6 +346,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Ordered Quantity");
 		orderQuantityName.setPrefWidth(100);
+		orderQuantityName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		orderQuantityName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -369,7 +361,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> purchasePrice = new TreeTableColumn<>("Purchase Price");
 		purchasePrice.setPrefWidth(100);
-		purchasePrice.setStyle("-fx-border-color: #888;-fx-border-style: dotted;");
+		purchasePrice.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		purchasePrice.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -380,7 +372,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Sell Price");
 		sellPrice.setPrefWidth(100);
-		sellPrice.setStyle("-fx-border-color: #888;-fx-border-style: dotted;");
+		sellPrice.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		sellPrice.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -391,6 +383,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> mfgName = new TreeTableColumn<>("MFG Date");
 		mfgName.setPrefWidth(100);
+		mfgName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		mfgName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -401,6 +394,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> expName = new TreeTableColumn<>("Expiry Date");
 		expName.setPrefWidth(100);
+		expName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
 		expName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -462,7 +456,6 @@ public class InventoryAddController implements Initializable {
 						quantity.getText(), mfgDate.getValue().toString(), expDate.getValue().toString(), unitQuantity.getText());
 				inventoryProductMap.put(batchId.getText(), inventoryProduct);
 				treeView.setVisible(true);
-				scrollPane2.setVisible(true);
 				saveAllButton.setVisible(true);
 				editButton.setVisible(true);
 				deleteButton.setVisible(true);
@@ -490,8 +483,8 @@ public class InventoryAddController implements Initializable {
 					refreshTableView();
 				}
 				else{
+					refreshTableView();
 					treeView.setVisible(false);
-					scrollPane2.setVisible(false);
 					saveAllButton.setVisible(false);
 					editButton.setVisible(false);
 					deleteButton.setVisible(false);

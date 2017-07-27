@@ -1,21 +1,18 @@
 package org.tallymed.ui.views;
 
 import java.io.IOException;
-import org.tallymed.ui.util.CommonUtil;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.layout.VBox;
 
 public class RootlayoutController {
 	private static BorderPane rootLayout;
@@ -77,7 +74,7 @@ public class RootlayoutController {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/views/InventoryAdd.fxml"));
-			AnchorPane homeInitiate = (AnchorPane) loader.load();
+			VBox homeInitiate = (VBox) loader.load();
 			rootLayout.setCenter(homeInitiate);
 
 		} catch (IOException e) {
