@@ -22,11 +22,7 @@
                 <MenuItem mnemonicParsing="false" text="Manage" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Sales">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#handleSellHome" text="Sales Home" />
-              </items>
-            </Menu>
+            <Menu mnemonicParsing="false" onAction="#handleSellHome" text="Sales" />
             <Menu mnemonicParsing="false" text="Reports">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
@@ -40,11 +36,6 @@
             <Menu mnemonicParsing="false" text="Customers">
               <items>
                 <MenuItem mnemonicParsing="false" text="Manage" />
-              </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Tools">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
               </items>
             </Menu>
 				<Menu mnemonicParsing="false" text="Help">

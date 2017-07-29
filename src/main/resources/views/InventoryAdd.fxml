@@ -12,7 +12,7 @@
 
 <VBox fx:id="inventoryPane" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.tallymed.ui.views.InventoryAddController">
   <children>
-    <SplitPane dividerPositions="0.4" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.25" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <AnchorPane>
           <children>
@@ -47,23 +47,35 @@
                   <Button fx:id="reset" layoutX="185.0" layoutY="471.0" mnemonicParsing="false" onAction="#resetButtonAction" prefHeight="25.0" prefWidth="149.0" text="ButtonReset Fields" />
           </children>
         </AnchorPane>
-            <SplitPane dividerPositions="0.9" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
+            <SplitPane dividerPositions="0.92" orientation="VERTICAL">
               <items>
-              <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
+              <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="-1.0" prefWidth="-1.0">
                 <content>
-                  <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
+                  <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0">
                     <children>
-                      <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="View" textAlignment="CENTER" textFill="$x2" wrapText="false" />
-                              <TreeTableView fx:id="treeView" layoutX="14.0" layoutY="47.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
-                                 <padding>
-                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                                 </padding></TreeTableView>
-                              <Label fx:id="priceLabel" layoutX="188.0" layoutY="492.0" text="0">
+                      <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Record details" textAlignment="CENTER" textFill="$x2" wrapText="false" />
+                              <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                                <content>
+                                  <AnchorPane>
+                                       <children>
+                                          <TreeTableView fx:id="treeView" layoutX="6.0" layoutY="6.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
+                                             <padding>
+                                                <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                             </padding>
+                                          </TreeTableView>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                       </padding>
+                                    </AnchorPane>
+                                </content>
+                              </ScrollPane>
+                              <Label fx:id="priceLabel" layoutX="188.0" layoutY="492.0" text="0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="200.0">
                                  <font>
                                     <Font size="13.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="dealerPayLabel" layoutX="14.0" layoutY="491.0" text="Total Payable to Dealer:">
+                              <Label fx:id="dealerPayLabel" layoutX="14.0" layoutY="491.0" text="Total Payable to Dealer:" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -72,7 +84,7 @@
                   </AnchorPane>
                 </content>
               </ScrollPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                <AnchorPane prefHeight="100.0">
                      <children>
                         <Button fx:id="deleteButton" layoutX="363.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleDelete" prefHeight="25.0" prefWidth="169.0" text="Delete Selected" />
                         <Button fx:id="saveAllButton" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleSaveAll" prefHeight="25.0" prefWidth="169.0" text="Save All" />
