@@ -28,7 +28,7 @@ public class LoginController {
 		log.info("Inside handleLogin() with Username: "+userNameField.getText());
 		boolean isInputValid = isValidInput();
 		if(isInputValid){
-			final String uri = "http://localhost:8080/login";
+			final String uri = "http://localhost:9080/login";
 			LoginOperation loginOperation = new LoginOperation();
 			loginOperation.setUsername(userNameField.getText());
 			loginOperation.setPassword(passwordField.getText());

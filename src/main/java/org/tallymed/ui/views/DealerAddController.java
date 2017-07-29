@@ -33,7 +33,7 @@ public class DealerAddController {
 		
 		boolean isInputValid = isValidInput();
 		if(isInputValid){
-			final String uri = "http://localhost:8080/dealerOperation";
+			final String uri = "http://localhost:9080/dealerOperation";
 			RestTemplate restTemplate = new RestTemplate();
 			Stage stage = (Stage) cancelButton.getScene().getWindow();
 			DealerOperation result = restTemplate.postForObject(uri, dealerOperation, DealerOperation.class);

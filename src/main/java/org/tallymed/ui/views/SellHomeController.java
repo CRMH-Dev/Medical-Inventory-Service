@@ -166,7 +166,7 @@ public class SellHomeController implements Initializable {
 		ProductInventoryOperation productInventoryOperation = new ProductInventoryOperation();
 		productInventoryOperation.setProductOperationType(ProductOperationType.PRODUCT_INVENTORY);
 		productInventoryOperation.setOperationType(OperationType.SEARCHALL);
-		String uri1 = "http://localhost:8080/productInventory";
+		String uri1 = "http://localhost:9080/productInventory";
 		RestTemplate restTemplate = new RestTemplate();
 		ProductInventoryOperation pioRes = restTemplate.postForObject(uri1, productInventoryOperation,
 				ProductInventoryOperation.class);

@@ -192,7 +192,7 @@ public class InventoryAddController implements Initializable {
 				productInventoryOperation.getProducts().add(products);
 				productInventoryOperation.setProductOperationType(ProductOperationType.PRODUCT_INVENTORY);
 				productInventoryOperation.setOperationType(OperationType.SEARCH);
-				String uri1 = "http://localhost:8080/productInventory";
+				String uri1 = "http://localhost:9080/productInventory";
 				RestTemplate restTemplate = new RestTemplate();
 				ProductInventoryOperation pioRes = restTemplate.postForObject(uri1, productInventoryOperation, ProductInventoryOperation.class);
 				if(pioRes != null && pioRes.getProducts() != null && !pioRes.getProducts().isEmpty()){
@@ -216,7 +216,7 @@ public class InventoryAddController implements Initializable {
 				productInventoryOperation.getProducts().add(products);
 				productInventoryOperation.setProductOperationType(ProductOperationType.PRODUCT);
 				productInventoryOperation.setOperationType(OperationType.SEARCH);
-				String uri1 = "http://localhost:8080/productInventory";
+				String uri1 = "http://localhost:9080/productInventory";
 				RestTemplate restTemplate = new RestTemplate();
 				ProductInventoryOperation pioRes = restTemplate.postForObject(uri1, productInventoryOperation, ProductInventoryOperation.class);
 				if(pioRes != null && pioRes.getProducts() != null && !pioRes.getProducts().isEmpty()){
@@ -303,7 +303,7 @@ public class InventoryAddController implements Initializable {
 	private DealerOperation findDealers() {
 		DealerOperation dealerOperation = new DealerOperation();
 		dealerOperation.setOperationType(OperationType.SEARCHALL);
-		final String uri = "http://localhost:8080/dealerOperation";
+		final String uri = "http://localhost:9080/dealerOperation";
 		RestTemplate restTemplate = new RestTemplate();
 		DealerOperation dealerOperations = restTemplate.postForObject(uri, dealerOperation, DealerOperation.class);
 		return dealerOperations;
@@ -313,7 +313,7 @@ public class InventoryAddController implements Initializable {
 	private void refreshTableView() {
 		TreeTableColumn<InventoryProduct, String> batchName = new TreeTableColumn<>("Batch ID");
 		batchName.setPrefWidth(100);
-		batchName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		batchName.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		batchName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -324,7 +324,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> productName = new TreeTableColumn<>("Product Name");
 		productName.setPrefWidth(150);
-		productName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		productName.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		productName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -335,7 +335,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> companyShortName = new TreeTableColumn<>("Company Code");
 		companyShortName.setPrefWidth(100);
-		companyShortName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		companyShortName.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		companyShortName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -346,7 +346,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Ordered Quantity");
 		orderQuantityName.setPrefWidth(100);
-		orderQuantityName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		orderQuantityName.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		orderQuantityName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -361,7 +361,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> purchasePrice = new TreeTableColumn<>("Purchase Price");
 		purchasePrice.setPrefWidth(100);
-		purchasePrice.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		purchasePrice.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		purchasePrice.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -372,7 +372,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Sell Price");
 		sellPrice.setPrefWidth(100);
-		sellPrice.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		sellPrice.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		sellPrice.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -383,7 +383,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> mfgName = new TreeTableColumn<>("MFG Date");
 		mfgName.setPrefWidth(100);
-		mfgName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		mfgName.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		mfgName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -394,7 +394,7 @@ public class InventoryAddController implements Initializable {
 				});
 		TreeTableColumn<InventoryProduct, String> expName = new TreeTableColumn<>("Expiry Date");
 		expName.setPrefWidth(100);
-		expName.setStyle("-fx-border-color: #bbb;-fx-border-style: solid;");
+		expName.setStyle("-fx-border-color: #ccc;-fx-border-style: solid;");
 		expName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
@@ -547,7 +547,7 @@ public class InventoryAddController implements Initializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String uri1 = "http://localhost:8080/productInventory";
+		String uri1 = "http://localhost:9080/productInventory";
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.postForObject(uri1, productInventoryOperation, ProductInventoryOperation.class);
 		inventoryProductMap.clear();
