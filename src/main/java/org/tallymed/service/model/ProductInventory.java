@@ -22,7 +22,8 @@ import javax.persistence.TableGenerator;
 @Table(name = "PRODUCT_INVENTORY")
 @NamedQueries({
 	  @NamedQuery(name="ProductInventory.findAll", query="select P FROM ProductInventory P"),
-	  @NamedQuery(name="ProductInventory.findByBatchId", query="select P FROM ProductInventory P where P.batchId=:batchId")
+	  @NamedQuery(name="ProductInventory.findByBatchId", query="select P FROM ProductInventory P where P.batchId=:batchId"),
+	  @NamedQuery(name="ProductInventory.findByAnyKey", query="select PI FROM ProductInventory PI where PI.batchId=:batchId and PI.product.productName=:productName")
 })
 public class ProductInventory {
 	

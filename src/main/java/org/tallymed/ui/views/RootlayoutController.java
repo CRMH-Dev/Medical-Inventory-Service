@@ -87,7 +87,7 @@ public class RootlayoutController {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(getClass().getResource("/views/SellHome.fxml"));
-			HBox homeInitiate = (HBox) loader.load();
+			VBox homeInitiate = (VBox) loader.load();
 			rootLayout.setCenter(homeInitiate);
 
 		} catch (IOException e) {

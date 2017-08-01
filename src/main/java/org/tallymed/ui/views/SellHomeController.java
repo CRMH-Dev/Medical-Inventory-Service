@@ -1,16 +1,19 @@
 package org.tallymed.ui.views;
 
 import java.net.URL;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.springframework.web.client.RestTemplate;
 import org.tallymed.service.clientserv.op.ProductInventoryOperation;
 import org.tallymed.service.clientserv.op.Products;
 import org.tallymed.service.clientserv.type.OperationType;
 import org.tallymed.service.clientserv.type.ProductOperationType;
+import org.tallymed.ui.util.CommonUtil;
 import org.tallymed.ui.views.forms.InventoryProduct;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -22,6 +25,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableView;
@@ -31,15 +35,25 @@ import javafx.util.Callback;
 public class SellHomeController implements Initializable {
 
 	Map<String, InventoryProduct> inventoryProductMap = null;
+	
+	Map<String, InventoryProduct> inventoryProductMapForBill = null;
 
+	@SuppressWarnings("restriction")
 	@FXML
 	private FlowPane productFlowPane;
 
+	@SuppressWarnings("restriction")
 	@FXML
 	private TreeTableView<InventoryProduct> treeView;
+	
+	@FXML
+	private TreeTableView<InventoryProduct> treeViewBill;
+	
+	@FXML
+	private TextField searchField;
 
-	@SuppressWarnings("unchecked")
-	private void refreshTableView() {
+	@SuppressWarnings({ "unchecked", "restriction" })
+	private void refreshTableView(Map<String, InventoryProduct> inventoryProductMapForTreeTable) {
 		TreeTableColumn<InventoryProduct, String> batchName = new TreeTableColumn<>("Batch ID");
 		batchName.setPrefWidth(100);
 		batchName.setCellValueFactory(
@@ -70,7 +84,7 @@ public class SellHomeController implements Initializable {
 						return param.getValue().getValue().getMfgShortName();
 					}
 				});
-		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Ordered Quantity");
+		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Stock Available");
 		orderQuantityName.setPrefWidth(100);
 		orderQuantityName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
@@ -84,17 +98,7 @@ public class SellHomeController implements Initializable {
 						return new SimpleStringProperty(string);
 					}
 				});
-		TreeTableColumn<InventoryProduct, String> purchasePrice = new TreeTableColumn<>("Purchase Price");
-		purchasePrice.setPrefWidth(100);
-		purchasePrice.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(
-							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
-						return param.getValue().getValue().getPurchasePrice();
-					}
-				});
-		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Sell Price");
+		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Sell Price per unit");
 		sellPrice.setPrefWidth(100);
 		sellPrice.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
@@ -124,37 +128,45 @@ public class SellHomeController implements Initializable {
 						return param.getValue().getValue().getExpDate();
 					}
 				});
-		if (inventoryProductMap != null && !inventoryProductMap.isEmpty()) {
+		if (inventoryProductMapForTreeTable != null && !inventoryProductMapForTreeTable.isEmpty()) {
 			ObservableList<InventoryProduct> inventoryProductsObservable = FXCollections.observableArrayList();
-			Set<String> batchKeys = inventoryProductMap.keySet();
-			Float totalPurchasePrice = 0.0f;
+			Set<String> batchKeys = inventoryProductMapForTreeTable.keySet();
 			Float totalSellPrice = 0.0f;
 			for (String key : batchKeys) {
-				InventoryProduct inventoryProduct = inventoryProductMap.get(key);
-				totalPurchasePrice += (Float.valueOf(inventoryProduct.getQuantity().get())
-						* Float.valueOf(inventoryProduct.getPurchasePrice().get()));
+				InventoryProduct inventoryProduct = inventoryProductMapForTreeTable.get(key);
 				totalSellPrice += (Float.valueOf(inventoryProduct.getQuantity().get())
 						* Float.valueOf(inventoryProduct.getMrp().get()));
 				inventoryProductsObservable.add(inventoryProduct);
 			}
 			final TreeItem<InventoryProduct> root = new RecursiveTreeItem<InventoryProduct>(inventoryProductsObservable,
 					RecursiveTreeObject::getChildren);
-			treeView.getColumns().setAll(batchName, productName, companyShortName, orderQuantityName, purchasePrice,
+			treeView.getColumns().setAll(batchName, productName, companyShortName, orderQuantityName,
 					sellPrice, mfgName, expName);
 			treeView.setRoot(root);
 			treeView.setShowRoot(false);
 		}
+		else{
+			treeView.setRoot(null);
+		}
 	}
 
+	@SuppressWarnings("restriction")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		populateTreeView();
-		refreshTableView();
+		refreshTableView(inventoryProductMap);
 		treeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<InventoryProduct>>() {
 			@Override
 			public void changed(ObservableValue<? extends TreeItem<InventoryProduct>> observable,
 					TreeItem<InventoryProduct> oldProduct, TreeItem<InventoryProduct> newProduct) {
-				System.out.println(newProduct.getValue().getProductName());
+				if(newProduct != null && newProduct.getValue() != null){
+					if(inventoryProductMapForBill == null){
+						inventoryProductMapForBill = new LinkedHashMap<String, InventoryProduct>();
+					}
+					InventoryProduct inventoryProductForBill = newProduct.getValue();
+					inventoryProductMapForBill.put(inventoryProductForBill.getBatchId().getValue(), inventoryProductForBill);
+					refreshTableViewForBill(inventoryProductMapForBill);
+				}
 			}
 		});
 	}
@@ -180,6 +192,136 @@ public class SellHomeController implements Initializable {
 						products.getExpDate().toString(), String.valueOf(products.getUomQuantity()));
 				inventoryProductMap.put(products.getBatchId(), inventoryProduct);
 			}
+		}
+	}
+	@FXML
+	public void filterTableData(){
+		Map<String, InventoryProduct> inventoryProductMapTemp;
+		if(searchField.getText() != null || searchField.getText().equalsIgnoreCase("")){
+			inventoryProductMapTemp = inventoryProductMap
+										.entrySet()
+										.stream()
+										.filter(i -> i.getValue().getBatchId().getValue().contains(searchField.getText())
+													|| i.getValue().getBatchId().getValue().contains(searchField.getText().toUpperCase())
+													|| i.getValue().getProductName().getValue().contains(searchField.getText())
+													|| i.getValue().getProductName().getValue().contains(searchField.getText().toUpperCase())
+													|| i.getValue().getProductComposition().getValue().contains(searchField.getText())
+													|| i.getValue().getProductComposition().getValue().contains(searchField.getText().toUpperCase())
+												)
+										.collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
+		}
+		else{
+			inventoryProductMapTemp = inventoryProductMap;
+		}
+		refreshTableView(inventoryProductMapTemp);
+	}
+	
+	@FXML
+	public void handleGenerateBill(){
+		
+	}
+	
+	@FXML
+	public void handleCancelCurrentBill(){
+		inventoryProductMapForBill = null;
+		refreshTableViewForBill(inventoryProductMapForBill);
+	}
+
+	@SuppressWarnings("restriction")
+	private void refreshTableViewForBill(Map<String, InventoryProduct> inventoryProductMapForTreeTable) {
+		TreeTableColumn<InventoryProduct, String> batchName = new TreeTableColumn<>("Batch ID");
+		batchName.setPrefWidth(100);
+		batchName.setCellValueFactory(
+				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
+						return param.getValue().getValue().getBatchId();
+					}
+				});
+		TreeTableColumn<InventoryProduct, String> productName = new TreeTableColumn<>("Product Name");
+		productName.setPrefWidth(150);
+		productName.setCellValueFactory(
+				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
+						return param.getValue().getValue().getProductName();
+					}
+				});
+		TreeTableColumn<InventoryProduct, String> companyShortName = new TreeTableColumn<>("Company Code");
+		companyShortName.setPrefWidth(100);
+		companyShortName.setCellValueFactory(
+				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
+						return param.getValue().getValue().getMfgShortName();
+					}
+				});
+		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Stock Available");
+		orderQuantityName.setPrefWidth(100);
+		orderQuantityName.setCellValueFactory(
+				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
+						int unitQ = Integer.parseInt(param.getValue().getValue().getUnitQuantity().get());
+						int quntity = Integer.parseInt(param.getValue().getValue().getQuantity().get());
+						int resQ = (unitQ * quntity);
+						String string = "(" + unitQ + " X " + quntity + ") = " + resQ;
+						return new SimpleStringProperty(string);
+					}
+				});
+		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Sell Price per unit");
+		sellPrice.setPrefWidth(100);
+		sellPrice.setCellValueFactory(
+				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
+						return param.getValue().getValue().getMrp();
+					}
+				});
+		TreeTableColumn<InventoryProduct, String> mfgName = new TreeTableColumn<>("MFG Date");
+		mfgName.setPrefWidth(100);
+		mfgName.setCellValueFactory(
+				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
+						return param.getValue().getValue().getMfgDate();
+					}
+				});
+		TreeTableColumn<InventoryProduct, String> expName = new TreeTableColumn<>("Expiry Date");
+		expName.setPrefWidth(100);
+		expName.setCellValueFactory(
+				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
+					@Override
+					public ObservableValue<String> call(
+							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
+						return param.getValue().getValue().getExpDate();
+					}
+				});
+		if(inventoryProductMapForBill != null && !inventoryProductMapForBill.isEmpty()){
+			ObservableList<InventoryProduct> inventoryProductsObservable = FXCollections.observableArrayList();
+			Set<String> batchKeys = inventoryProductMapForTreeTable.keySet();
+			Float totalSellPrice = 0.0f;
+			for (String key : batchKeys) {
+				InventoryProduct inventoryProduct = inventoryProductMapForTreeTable.get(key);
+				totalSellPrice += (Float.valueOf(inventoryProduct.getQuantity().get())
+						* Float.valueOf(inventoryProduct.getMrp().get()));
+				inventoryProductsObservable.add(inventoryProduct);
+			}
+			final TreeItem<InventoryProduct> root = new RecursiveTreeItem<InventoryProduct>(inventoryProductsObservable,
+					RecursiveTreeObject::getChildren);
+			treeViewBill.getColumns().setAll(batchName, productName, companyShortName, orderQuantityName,
+					sellPrice, mfgName, expName);
+			treeViewBill.setRoot(root);
+			treeViewBill.setShowRoot(false);
+		}
+		else{
+			treeViewBill.setRoot(null);
 		}
 	}
 }
