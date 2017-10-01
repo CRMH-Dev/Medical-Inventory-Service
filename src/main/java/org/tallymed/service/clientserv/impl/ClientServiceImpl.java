@@ -321,6 +321,7 @@ public class ClientServiceImpl {
 				productRes.setPurchasePrice(productInventory.getPurchasePrice());
 				productRes.setSellingPrice(productInventory.getSellPrice());
 				productRes.setMfgDate(productInventory.getMfgDate());
+				productRes.setCurrentStock(productInventory.getCurrentStock());
 				pioRes.getProducts().add(productRes);
 			}
 			return new ResponseEntity<ProductInventoryOperation>(pioRes, HttpStatus.OK);

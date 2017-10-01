@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -20,8 +22,9 @@ public class OrderSellProduct {
 	@Id
 	@Column(name = "ORDER_SELL_PRODUCT_ID")
 	private int orderSellProductId;
-	@Column(name = "ORDER_SELL_ID")
-	private int orderSellId;
+	@ManyToOne(targetEntity = OrderSell.class)
+	@JoinColumn(name = "ORDER_SELL_ID", nullable = false)
+	private OrderSell orderSell;
 	@Column(name = "PRODUCT_ID")
 	private int productId;
 	@Column(name = "QUANTITY")
@@ -34,11 +37,12 @@ public class OrderSellProduct {
 	public void setOrderSellProductId(int orderSellProductId) {
 		this.orderSellProductId = orderSellProductId;
 	}
-	public int getOrderSellId() {
-		return orderSellId;
+	
+	public OrderSell getOrderSell() {
+		return orderSell;
 	}
-	public void setOrderSellId(int orderSellId) {
-		this.orderSellId = orderSellId;
+	public void setOrderSell(OrderSell orderSell) {
+		this.orderSell = orderSell;
 	}
 	public int getProductId() {
 		return productId;

@@ -34,10 +34,10 @@ public class ClientWebService implements ClientService {
 		
 	}
 	public ClientServiceImpl getClientServiceImpl() {
-		return clientServiceImpl;
+		return this.clientServiceImpl;
 	}
 	public void setClientServiceImpl(ClientServiceImpl clientServiceImpl) {
-		clientServiceImpl = clientServiceImpl;
+		this.clientServiceImpl = clientServiceImpl;
 	}
 	
 	@Override
@@ -46,23 +46,7 @@ public class ClientWebService implements ClientService {
 			@RequestBody ProductInventoryOperation inventoryOperationRequest) {
 		ResponseEntity<ProductInventoryOperation> inventoryOperationResponse = null;
 		switch(inventoryOperationRequest.getProductOperationType()) {
-		case COMPANY:
-			switch(inventoryOperationRequest.getOperationType()){
-			case DELETE:
-				break;
-			case SAVE:
-				break;
-			case SEARCH:
-				break;
-			case UPDATE:
-				break;
-			default:
-				break;
-			
-			}
-			break;
-			
-			
+		
 		case PRODUCT:
 			switch(inventoryOperationRequest.getOperationType()){
 			case DELETE:
@@ -102,26 +86,8 @@ public class ClientWebService implements ClientService {
 			}
 			break;
 			
-			
-		case UOM:
-			switch(inventoryOperationRequest.getOperationType()){
-			case DELETE:
-				break;
-			case SAVE:
-				break;
-			case SEARCH:
-				break;
-			case UPDATE:
-				break;
-			default:
-				break;
-			}
-			break;
-			
-			
 		default:
 			break;
-		
 		}
 		
 		return inventoryOperationResponse;

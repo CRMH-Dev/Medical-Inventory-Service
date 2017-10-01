@@ -1,6 +1,8 @@
 package org.tallymed.ui.views;
 
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -8,6 +10,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import org.tallymed.service.clientserv.op.ProductInventoryOperation;
 import org.tallymed.service.clientserv.op.Products;
@@ -15,6 +18,7 @@ import org.tallymed.service.clientserv.type.OperationType;
 import org.tallymed.service.clientserv.type.ProductOperationType;
 import org.tallymed.ui.util.CommonUtil;
 import org.tallymed.ui.views.forms.InventoryProduct;
+
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
@@ -23,14 +27,19 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.layout.FlowPane;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 public class SellHomeController implements Initializable {
 
@@ -164,6 +173,7 @@ public class SellHomeController implements Initializable {
 						inventoryProductMapForBill = new LinkedHashMap<String, InventoryProduct>();
 					}
 					InventoryProduct inventoryProductForBill = newProduct.getValue();
+					inventoryProductForBill.setQuantity(new SimpleStringProperty(String.valueOf(0)));
 					inventoryProductMapForBill.put(inventoryProductForBill.getBatchId().getValue(), inventoryProductForBill);
 					refreshTableViewForBill(inventoryProductMapForBill);
 				}
@@ -183,13 +193,16 @@ public class SellHomeController implements Initializable {
 		ProductInventoryOperation pioRes = restTemplate.postForObject(uri1, productInventoryOperation,
 				ProductInventoryOperation.class);
 		if (pioRes != null && pioRes.getProducts() != null && !pioRes.getProducts().isEmpty()) {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 			for (Products products : pioRes.getProducts()) {
+				String expDate = sdf.format(products.getExpDate());
+				String mfgDate = sdf.format(products.getMfgDate());
 				InventoryProduct inventoryProduct = new InventoryProduct(null, products.getBatchId(),
 						products.getProductName(), products.getProductComposition(), products.getCompanyName(),
 						products.getCompanyShortName(), products.getUomType(),
 						String.valueOf(products.getSellingPrice()), String.valueOf(products.getPurchasePrice()),
-						String.valueOf(products.getCurrentStock()), products.getMfgDate().toString(),
-						products.getExpDate().toString(), String.valueOf(products.getUomQuantity()));
+						String.valueOf(products.getCurrentStock()), mfgDate,
+						expDate, String.valueOf(products.getUomQuantity()));
 				inventoryProductMap.put(products.getBatchId(), inventoryProduct);
 			}
 		}
@@ -200,7 +213,7 @@ public class SellHomeController implements Initializable {
 		if(searchField.getText() != null || searchField.getText().equalsIgnoreCase("")){
 			inventoryProductMapTemp = inventoryProductMap
 										.entrySet()
-										.stream()
+										.parallelStream()
 										.filter(i -> i.getValue().getBatchId().getValue().contains(searchField.getText())
 													|| i.getValue().getBatchId().getValue().contains(searchField.getText().toUpperCase())
 													|| i.getValue().getProductName().getValue().contains(searchField.getText())
@@ -218,7 +231,12 @@ public class SellHomeController implements Initializable {
 	
 	@FXML
 	public void handleGenerateBill(){
-		
+		if(inventoryProductMapForBill == null || inventoryProductMapForBill.isEmpty()){
+			CommonUtil.showErrorPopup(null, "Please add medicines before proceed to generate bill!!", "Error occured");
+		}
+		else{
+			
+		}
 	}
 	
 	@FXML
@@ -227,7 +245,7 @@ public class SellHomeController implements Initializable {
 		refreshTableViewForBill(inventoryProductMapForBill);
 	}
 
-	@SuppressWarnings("restriction")
+	@SuppressWarnings({ "restriction", "unchecked" })
 	private void refreshTableViewForBill(Map<String, InventoryProduct> inventoryProductMapForTreeTable) {
 		TreeTableColumn<InventoryProduct, String> batchName = new TreeTableColumn<>("Batch ID");
 		batchName.setPrefWidth(100);
@@ -259,48 +277,84 @@ public class SellHomeController implements Initializable {
 						return param.getValue().getValue().getMfgShortName();
 					}
 				});
-		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Stock Available");
+		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Quantity");
 		orderQuantityName.setPrefWidth(100);
 		orderQuantityName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(
 							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
-						int unitQ = Integer.parseInt(param.getValue().getValue().getUnitQuantity().get());
-						int quntity = Integer.parseInt(param.getValue().getValue().getQuantity().get());
-						int resQ = (unitQ * quntity);
-						String string = "(" + unitQ + " X " + quntity + ") = " + resQ;
-						return new SimpleStringProperty(string);
+						return new SimpleStringProperty(param.getValue().getValue().getQuantity().getValue().toString());
 					}
 				});
-		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Sell Price per unit");
-		sellPrice.setPrefWidth(100);
+		orderQuantityName.setEditable(true);
+		
+		orderQuantityName.setCellFactory(new Callback<TreeTableColumn<InventoryProduct,String>, TreeTableCell<InventoryProduct,String>>() {
+			@Override
+			public TreeTableCell<InventoryProduct, String> call(TreeTableColumn<InventoryProduct, String> param) {
+				TreeTableCell<InventoryProduct, String> treeTableCell = new TextFieldTreeTableCell<InventoryProduct, String>(new StringConverter() {
+
+					@Override
+					public Object fromString(String string) {
+						return string;
+					}
+
+					@Override
+					public String toString(Object object) {
+						if(object != null)
+							return object.toString();
+						return null;
+					}
+				});
+				
+				return treeTableCell;
+			}
+		});
+		orderQuantityName.setOnEditCommit(new EventHandler<TreeTableColumn.CellEditEvent<InventoryProduct,String>>() {
+			@Override
+			public void handle(CellEditEvent<InventoryProduct, String> event) {
+				
+				if(!StringUtils.isEmpty(event.getNewValue())){
+					orderQuantityName.setUserData(event.getNewValue());
+					InventoryProduct value = event.getRowValue().getValue();
+					value.setQuantity(new SimpleStringProperty(event.getNewValue()));
+					inventoryProductMapForBill.put(value.getBatchId().getValue(), value);
+					refreshTableViewForBill(inventoryProductMapForBill);
+				}
+				else {
+					CommonUtil.showWarningPopup(null, event.getNewValue(), "Enter a valid quantity for billing...");
+				}
+			}
+		});
+		
+		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Price per piece");
+		sellPrice.setPrefWidth(120);
 		sellPrice.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(
 							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
-						return param.getValue().getValue().getMrp();
+						Double priceMrp = Double.parseDouble(param.getValue().getValue().getMrp().getValue());
+						Double unitQuantity = Double.parseDouble(param.getValue().getValue().getUnitQuantity().getValue());
+						DecimalFormat df = new DecimalFormat("#.00"); 
+						Double pricePerPc = priceMrp/unitQuantity;
+						return new SimpleStringProperty(df.format(pricePerPc));
 					}
 				});
-		TreeTableColumn<InventoryProduct, String> mfgName = new TreeTableColumn<>("MFG Date");
-		mfgName.setPrefWidth(100);
-		mfgName.setCellValueFactory(
+		TreeTableColumn<InventoryProduct, String> currentTotal = new TreeTableColumn<>("Current Total");
+		currentTotal.setPrefWidth(100);
+		currentTotal.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(
 							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
-						return param.getValue().getValue().getMfgDate();
-					}
-				});
-		TreeTableColumn<InventoryProduct, String> expName = new TreeTableColumn<>("Expiry Date");
-		expName.setPrefWidth(100);
-		expName.setCellValueFactory(
-				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
-					@Override
-					public ObservableValue<String> call(
-							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
-						return param.getValue().getValue().getExpDate();
+						Double priceMrp = Double.parseDouble(param.getValue().getValue().getMrp().getValue());
+						Double unitQuantity = Double.parseDouble(param.getValue().getValue().getUnitQuantity().getValue());
+						Double pricePerPc = priceMrp/unitQuantity;
+						Double quantity = Double.parseDouble(param.getValue().getValue().getQuantity().getValue());
+						Double currentTotal = pricePerPc * quantity;
+						DecimalFormat df = new DecimalFormat("#.00"); 
+						return new SimpleStringProperty(df.format(currentTotal));
 					}
 				});
 		if(inventoryProductMapForBill != null && !inventoryProductMapForBill.isEmpty()){
@@ -315,9 +369,9 @@ public class SellHomeController implements Initializable {
 			}
 			final TreeItem<InventoryProduct> root = new RecursiveTreeItem<InventoryProduct>(inventoryProductsObservable,
 					RecursiveTreeObject::getChildren);
-			treeViewBill.getColumns().setAll(batchName, productName, companyShortName, orderQuantityName,
-					sellPrice, mfgName, expName);
+			treeViewBill.getColumns().setAll(batchName, productName, sellPrice, orderQuantityName, currentTotal);
 			treeViewBill.setRoot(root);
+			treeViewBill.setEditable(true);
 			treeViewBill.setShowRoot(false);
 		}
 		else{
