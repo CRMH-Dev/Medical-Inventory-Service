@@ -99,8 +99,8 @@ public class InventoryAddController implements Initializable {
 	@FXML
 	private DatePicker purchaseDate;
 	
-	@FXML
-	private TextField unitQuantity;
+	/*@FXML
+	private TextField unitQuantity;*/
 
 	@FXML
 	private TextField invoiceID;
@@ -147,7 +147,7 @@ public class InventoryAddController implements Initializable {
 					try {
 						Stage popupStage = new Stage(StageStyle.TRANSPARENT);
 						FXMLLoader loader = new FXMLLoader();
-						loader.setLocation(RootlayoutController.class.getResource("DealerAddPopup.fxml"));
+						loader.setLocation(RootlayoutController.class.getResource("/views/DealerAddPopup.fxml"));
 						AnchorPane root = (AnchorPane) loader.load();
 						popupStage.initOwner(dealer.getScene().getWindow());
 						popupStage.initModality(Modality.WINDOW_MODAL);
@@ -229,8 +229,8 @@ public class InventoryAddController implements Initializable {
 					mfgCompanyName.setText(null);
 					mfgShortName.setDisable(false);
 					mfgShortName.setText(null);
-					unitQuantity.setDisable(false);
-					unitQuantity.setText(null);
+					/*unitQuantity.setDisable(false);
+					unitQuantity.setText(null);*/
 					unitType.getSelectionModel().clearSelection();
 					unitType.setDisable(false);
 					quantity.setDisable(false);
@@ -279,8 +279,8 @@ public class InventoryAddController implements Initializable {
 			mfgCompanyName.setText(product.getCompanyName());
 			mfgShortName.setDisable(false);
 			mfgShortName.setText(product.getCompanyShortName());
-			unitQuantity.setDisable(false);
-			unitQuantity.setText(String.valueOf(product.getUomQuantity()));
+			/*unitQuantity.setDisable(false);
+			unitQuantity.setText(String.valueOf(product.getUomQuantity()));*/
 			unitType.getSelectionModel().clearSelection();
 			unitType.setValue(product.getUomType());
 			unitType.getEditor().setText(product.getUomType());
@@ -352,10 +352,10 @@ public class InventoryAddController implements Initializable {
 					@Override
 					public ObservableValue<String> call(
 							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
-						int unitQ = Integer.parseInt(param.getValue().getValue().getUnitQuantity().get());
+						int unitQ = 1;//Integer.parseInt(param.getValue().getValue().getUnitQuantity().get());
 						int quntity = Integer.parseInt(param.getValue().getValue().getQuantity().get());
 						int resQ = (unitQ * quntity);
-						String string = "(" + unitQ + " X " + quntity + ") = "+resQ;
+						String string = String.valueOf(resQ);
 						return new SimpleStringProperty(string);
 					}
 				});
@@ -453,7 +453,7 @@ public class InventoryAddController implements Initializable {
 				InventoryProduct inventoryProduct = new InventoryProduct(dealer.getValue(), batchId.getText(),
 						productName.getText(), productComposition.getText(), mfgCompanyName.getText(),
 						mfgShortName.getText(), unitType1, mrp.getText(), purchasePrice.getText(),
-						quantity.getText(), mfgDate.getValue().toString(), expDate.getValue().toString(), unitQuantity.getText());
+						quantity.getText(), mfgDate.getValue().toString(), expDate.getValue().toString(), String.valueOf(1));
 				inventoryProductMap.put(batchId.getText(), inventoryProduct);
 				treeView.setVisible(true);
 				saveAllButton.setVisible(true);
@@ -571,9 +571,7 @@ public class InventoryAddController implements Initializable {
 		if(unitType == null || unitType.getValue() == null || unitType.getEditor().getText() == null){
 			message += "Unit Type is Mandatory!!\n";
 		}
-		if(unitQuantity == null || unitQuantity.getText() == null){
-			message += "Unit quantity is Mandatory!!\n";
-		}
+		
 		if(quantity == null || quantity.getText() == null){
 			message += "Stock quantity is Mandatory!!\n";
 		}
@@ -629,8 +627,8 @@ public class InventoryAddController implements Initializable {
 		mfgCompanyName.setText(null);
 		mfgShortName.setDisable(true);
 		mfgShortName.setText(null);
-		unitQuantity.setDisable(true);
-		unitQuantity.setText(null);
+		/*unitQuantity.setDisable(true);
+		unitQuantity.setText(null);*/
 		unitType.getSelectionModel().clearSelection();
 		unitType.setDisable(true);
 		quantity.setDisable(true);

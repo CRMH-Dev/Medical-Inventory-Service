@@ -82,6 +82,7 @@ public class ClientServiceImpl {
 		DealerInfo dealerInfo = findDealerInfo(inventoryOperationRequest.getDealerName());
 		OrderPurchase orderPurchase = createOrderPurchase(dealerInfo, inventoryOperationRequest);
 		DealerPayment dealerPayment = createDealerPayment(dealerInfo, orderPurchase.getOrderTotal());
+		
 		// save dealer payment pending
 		dealerInfo.setTotalPurchase(dealerInfo.getTotalPurchase() + orderPurchase.getOrderTotal());
 		Set<OrderPurchaseProduct> orderPurchaseProducts = new HashSet<OrderPurchaseProduct>();
@@ -106,7 +107,7 @@ public class ClientServiceImpl {
 			orderPurchaseService.update(orderPurchase);
 			dealerInfoService.update(dealerInfo);
 		}
-				return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	private DealerPayment createDealerPayment(DealerInfo dealerInfo, float orderTotal) {

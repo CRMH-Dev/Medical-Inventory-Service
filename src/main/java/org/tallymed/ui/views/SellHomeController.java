@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
@@ -36,8 +37,10 @@ import javafx.scene.control.TreeTableCell;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.TreeTableColumn.CellEditEvent;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.cell.TextFieldTreeTableCell;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
@@ -50,6 +53,9 @@ public class SellHomeController implements Initializable {
 	@SuppressWarnings("restriction")
 	@FXML
 	private FlowPane productFlowPane;
+	
+	@FXML
+	private VBox sellVBox;
 
 	@SuppressWarnings("restriction")
 	@FXML
@@ -93,21 +99,20 @@ public class SellHomeController implements Initializable {
 						return param.getValue().getValue().getMfgShortName();
 					}
 				});
-		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Stock Available");
-		orderQuantityName.setPrefWidth(100);
+		TreeTableColumn<InventoryProduct, String> orderQuantityName = new TreeTableColumn<>("Stock Available (Pcs)");
+		orderQuantityName.setPrefWidth(120);
 		orderQuantityName.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
 					@Override
 					public ObservableValue<String> call(
 							TreeTableColumn.CellDataFeatures<InventoryProduct, String> param) {
-						int unitQ = Integer.parseInt(param.getValue().getValue().getUnitQuantity().get());
+						//int unitQ = Integer.parseInt(param.getValue().getValue().getUnitQuantity().get());
 						int quntity = Integer.parseInt(param.getValue().getValue().getQuantity().get());
-						int resQ = (unitQ * quntity);
-						String string = "(" + unitQ + " X " + quntity + ") = " + resQ;
+						String string = String.valueOf(quntity);
 						return new SimpleStringProperty(string);
 					}
 				});
-		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Sell Price per unit");
+		TreeTableColumn<InventoryProduct, String> sellPrice = new TreeTableColumn<>("Price per Piece");
 		sellPrice.setPrefWidth(100);
 		sellPrice.setCellValueFactory(
 				new Callback<TreeTableColumn.CellDataFeatures<InventoryProduct, String>, ObservableValue<String>>() {
@@ -231,14 +236,34 @@ public class SellHomeController implements Initializable {
 	
 	@FXML
 	public void handleGenerateBill(){
+		sellVBox.setDisable(true);
 		if(inventoryProductMapForBill == null || inventoryProductMapForBill.isEmpty()){
 			CommonUtil.showErrorPopup(null, "Please add medicines before proceed to generate bill!!", "Error occured");
 		}
 		else{
-			
+			String errorMessage = validateInventoryProductForBill(inventoryProductMapForBill);
+			if(StringUtils.isEmpty(errorMessage)){
+				
+			}
+			else{
+				CommonUtil.showErrorPopup(null, errorMessage, "Validation Failure");
+			}
 		}
+		sellVBox.setDisable(false);
 	}
 	
+	private String validateInventoryProductForBill(Map<String, InventoryProduct> inventoryProductMapForBill2) {
+		String errorMessage = "";
+		for(Entry<String, InventoryProduct> entry : inventoryProductMapForBill2.entrySet()){
+			if(entry.getValue().getQuantity().getValue().equalsIgnoreCase("0")){
+				errorMessage = errorMessage.concat("Quantity can't be 0, Please add a valid quantity before proceed!!\n"
+						+ "Double click on quantity column for each row for updating it's value!!");
+				break;
+			}
+		}		
+		return errorMessage;
+	}
+
 	@FXML
 	public void handleCancelCurrentBill(){
 		inventoryProductMapForBill = null;
